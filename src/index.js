@@ -40,15 +40,21 @@ function checksTodoExists (request, response, next) {
   const { username } = request.headers
   const { id } = request.params
 
+  if (!validate(id)) {
+    return response.status(400).json({
+      error: 'Not valid ID!'
+    })
+  }
+
   if (!users.some(user => user.username === username)) {
     return response.status(404).json({
       error: 'Account not found!'
     })
   }
 
-  if (!validate(id)) {
-    return response.status(400).json({
-      error: 'Not valid ID!'
+  if (!users.find(user => user.username === username).todos.some(todo => todo.id === id)) {
+    return response.status(404).json({
+      error: 'Todo not found!'
     })
   }
 
