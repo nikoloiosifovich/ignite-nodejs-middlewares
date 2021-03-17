@@ -14,7 +14,7 @@ function checksExistsUserAccount (request, response, next) {
 
   if (!users.some(user => user.username === username)) {
     return request.status(404).json({
-      error: 'User dont exists!'
+      error: 'Account not found!'
     })
   }
 
@@ -37,7 +37,16 @@ function checksCreateTodosUserAvailability (request, response, next) {
 }
 
 function checksTodoExists (request, response, next) {
-  // Complete aqui
+  const { username } = request.headers
+  const { id } = request.params
+
+  const user = users.find(user => user.username === username)
+  const todo = user.todos.find(todo => todo.id === id)
+
+  request.user = user
+  request.todo = todo
+
+  return next()
 }
 
 function findUserById (request, response, next) {
