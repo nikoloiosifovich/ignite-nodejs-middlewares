@@ -70,6 +70,12 @@ function checksTodoExists (request, response, next) {
 function findUserById (request, response, next) {
   const { id } = request.params
 
+  if (!users.some(user => user.id === id)) {
+    return response.status(404).json({
+      error: 'User not found!'
+    })
+  }
+
   const user = users.find(user => user.id === id)
 
   request.user = user
