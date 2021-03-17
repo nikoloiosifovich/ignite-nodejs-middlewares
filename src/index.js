@@ -13,7 +13,7 @@ function checksExistsUserAccount (request, response, next) {
   const { username } = request.headers
 
   if (!users.some(user => user.username === username)) {
-    return request.status(404).json({
+    return response.status(404).json({
       error: 'Account not found!'
     })
   }
@@ -43,6 +43,12 @@ function checksTodoExists (request, response, next) {
   if (!users.some(user => user.username === username)) {
     return response.status(404).json({
       error: 'Account not found!'
+    })
+  }
+
+  if (!validate(id)) {
+    return response.status(400).json({
+      error: 'Not valid ID!'
     })
   }
 
