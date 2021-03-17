@@ -40,6 +40,12 @@ function checksTodoExists (request, response, next) {
   const { username } = request.headers
   const { id } = request.params
 
+  if (!users.some(user => user.username === username)) {
+    return response.status(404).json({
+      error: 'Account not found!'
+    })
+  }
+
   const user = users.find(user => user.username === username)
   const todo = user.todos.find(todo => todo.id === id)
 
